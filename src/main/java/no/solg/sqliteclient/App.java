@@ -46,18 +46,22 @@ public class App {
         }
     }
 
+    static String getDatabaseName(String databasePath) {
+        final String filename = new File(databasePath).getName();
+        if (filename.indexOf('.') != -1) {
+            return filename.substring(0, filename.indexOf('.'));
+        } else {
+            return filename;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             System.out.println("Usage: sqlitequery.jar <database file>");
         } else {
             final String dbPath = args[0];
-            final String filename = new File(dbPath).getName();
-            String dbName;
-            if (filename.indexOf('.') != -1) {
-                dbName = filename.substring(0, filename.indexOf('.'));
-            } else {
-                dbName = filename;
-            }
+            final String dbName = getDatabaseName(dbPath);
+
             SQLiteConfig config = new SQLiteConfig();
             config.setReadOnly(true);
             try {
